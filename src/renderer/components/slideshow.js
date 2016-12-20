@@ -1,9 +1,9 @@
 import React from 'react'
+import {autobind} from 'core-decorators'
 
 export default class Slideshow extends React.Component {
   constructor (props, context) {
     super(props, context)
-    console.log(props)
     this.state = {
       currentImageIndex: 0
     }
@@ -23,12 +23,13 @@ export default class Slideshow extends React.Component {
   }
 
   componentDidMount () {
-    this.timeout = setTimeout(this.advance.bind(this), this.props.slideTime)
+    this.timeout = setTimeout(this.advance, this.props.timePerSlide)
   }
 
+  @autobind
   advance () {
     this.setState({currentImageIndex: this.getNextImageIndex()})
-    this.timeout = setTimeout(this.advance.bind(this), this.props.slideTime)
+    this.timeout = setTimeout(this.advance, this.props.timePerSlide)
   }
 
   componentDidUpdate () {
@@ -56,9 +57,9 @@ export default class Slideshow extends React.Component {
 
 Slideshow.propTypes = {
   images: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  slideTime: React.PropTypes.number
+  timePerSlide: React.PropTypes.number
 }
 
 Slideshow.defaultProps = {
-  slideTime: 10000
+  timePerSlide: 10000
 }
