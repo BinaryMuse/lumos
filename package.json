@@ -4,13 +4,15 @@
   "description": "Media screen software",
   "main": "src/main/index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build-pi": "electron-packager-compile . Lumos --platform=linux --arch=armv7l --version=1.4.12 --overwrite --no-prune --asar"
   },
   "keywords": [],
   "author": "Michelle Tilley <michelle@michelletilley.net>",
   "license": "ISC",
   "private": true,
   "devDependencies": {
+    "electron-packager": "^8.4.0",
     "electron-prebuilt-compile": "1.4.12"
   },
   "dependencies": {
