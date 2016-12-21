@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, protocol} from 'electron'
 
 let mainWindow
 function createWindow () {
@@ -15,6 +15,14 @@ function createWindow () {
     useContentSize: true
   })
   mainWindow.loadURL(`file://${__dirname}/index.html`)
+  // mainWindow.webContents.openDevTools()
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  protocol.registerFileProtocol('lumos', (request, callback) => {
+    const path = request.url.replace(/^lumos:\/\//, '')
+    callback(path)
+  })
+
+  createWindow()
+})

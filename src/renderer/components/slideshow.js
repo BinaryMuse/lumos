@@ -43,7 +43,7 @@ export default class Slideshow extends React.Component {
   render () {
     const currentImageUrl = this.getImageAtIndex(this.state.currentImageIndex)
     const style = {
-      backgroundImage: `url("file://${currentImageUrl}")`
+      backgroundImage: `url("lumos://${currentImageUrl}")`
     }
     return (
       <div className='image-slide' style={style} />
