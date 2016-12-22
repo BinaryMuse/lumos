@@ -103,10 +103,6 @@ function* wifiConnect ({ssid, password}) {
   try {
     yield put({type: TYPES.WIFI_CONNECT_IN_PROGRESS})
     yield call(connectWifi, ssid, password)
-    const ap = {
-      ssid: ssid,
-      password: password || ''
-    }
     yield put({type: TYPES.WIFI_INFO_RESET})
   } catch (err) {
     yield put({type: TYPES.WIFI_CONNECT_FAIL})
