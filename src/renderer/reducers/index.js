@@ -4,6 +4,12 @@ const initialState = {
   globalMessage: "Loading...",
   images: [],
   timePerSlide: 3000,
+  wifi: {
+    connected: false,
+    ssid: null,
+    scanning: false,
+    availableSsids: []
+  }
 }
 
 export default function reducer (state = initialState, action) {
@@ -18,6 +24,51 @@ export default function reducer (state = initialState, action) {
       ...state,
       globalMessage: null,
       images: action.images
+    }
+  case TYPES.WIFI_SSID:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        connected: true,
+        ssid: action.ssid
+      }
+    }
+  case TYPES.WIFI_DISCONNECTED:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        connected: false,
+        ssid: null
+      }
+    }
+  case TYPES.WIFI_SCAN_IN_PROGRESS:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        scanning: true,
+        availableSsids: []
+      }
+    }
+  case TYPES.WIFI_SCAN_FAIL:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        scanning: false,
+        availableSsids: []
+      }
+    }
+  case TYPES.WIFI_SCAN_SUCCESS:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        scanning: false,
+        availableSsids: action.ssids
+      }
     }
   default:
     return state

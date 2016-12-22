@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Slideshow from './slideshow'
+import WifiInfo from './wifi-info'
 
 class Application extends React.Component {
   render () {
@@ -19,7 +20,12 @@ class Application extends React.Component {
   }
 
   renderSlideshow (images, timePerSlide) {
-    return <Slideshow images={images} timePerSlide={timePerSlide} />
+    return (
+      <div className='full-screen'>
+        <Slideshow images={images} timePerSlide={timePerSlide} />
+        <WifiInfo />
+      </div>
+    )
   }
 }
 
