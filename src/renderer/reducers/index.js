@@ -6,6 +6,7 @@ const initialState = {
   timePerSlide: 3000,
   wifi: {
     connected: false,
+    connecting: false,
     ssid: null,
     scanning: false,
     availableSsids: []
@@ -68,6 +69,24 @@ export default function reducer (state = initialState, action) {
         ...state.wifi,
         scanning: false,
         availableSsids: action.ssids
+      }
+    }
+  case TYPES.WIFI_CONNECT_IN_PROGRESS:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        connecting: true,
+        ssid: null
+      }
+    }
+  case TYPES.WIFI_CONNECT_FAIL:
+    return {
+      ...state,
+      wifi: {
+        ...state.wifi,
+        connecting: false,
+        ssid: null
       }
     }
   default:

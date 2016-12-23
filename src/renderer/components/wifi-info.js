@@ -3,9 +3,14 @@ import { connect } from 'react-redux'
 
 class WifiInfo extends React.Component {
   render () {
+    let icon, ssid
+    if (this.props.ssid) {
+      icon = <img src='./img/icon-wifi.png' className='tiny-wifi' />
+      ssid = this.props.ssid
+    }
     return (
       <div className='wifi-info'>
-        {this.props.ssid ? this.props.ssid : ''}
+        {icon} {ssid}
       </div>
     )
   }
