@@ -13,7 +13,7 @@ function getCurrentWifiSsid () {
   let command
   switch (process.platform) {
     case 'darwin':
-      command = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID/ {print substr($0, index($0, $2))}'"
+      command = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/ SSID:/'"
       break
     case 'linux':
       command = 'iwgetid -r'
@@ -27,7 +27,10 @@ function getCurrentWifiSsid () {
       timeout: 3000
     }, (err, stdout) => {
       if (err) return reject(err)
-      const output = stdout.trim()
+      let output = stdout.trim()
+      if (process.platform === 'darwin') {
+        output = output.replace(/^SSID:\s?/, '')
+      }
       if (output.length) {
         return resolve(output)
       } else {
