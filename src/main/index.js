@@ -1,10 +1,10 @@
-import {app, BrowserWindow, protocol} from 'electron'
+import {app, BrowserWindow, globalShortcut, protocol} from 'electron'
 
 let mainWindow
 function createWindow () {
   if (mainWindow) return
 
-  mainWindow = new BrowserWindow({
+  let options = {
     width: 800,
     heigth: 480,
     title: '',
@@ -13,9 +13,17 @@ function createWindow () {
     // resizable: false,
     show: true,
     useContentSize: true
-  })
+  }
+  if (process.env.NODE_ENV === 'production') {
+    options.kiosk = true
+  }
+  mainWindow = new BrowserWindow(options)
   mainWindow.loadURL(`file://${__dirname}/index.html`)
   // mainWindow.webContents.openDevTools()
+
+  globalShortcut.register("CommandOrControl+Shift+Q", () => {
+    app.quit()
+  })
 }
 
 app.on('ready', () => {

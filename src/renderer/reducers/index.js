@@ -3,7 +3,7 @@ import { TYPES } from '../actions'
 const initialState = {
   globalMessage: "Loading...",
   images: [],
-  timePerSlide: 3000,
+  timePerSlide: 7000,
   wifi: {
     connected: false,
     connecting: false,
