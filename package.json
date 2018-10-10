@@ -19,6 +19,7 @@
   "private": true,
   "devDependencies": {
     "electron": "^3.0.3",
+    "husky": "^1.1.1",
     "standard": "^12.0.1"
   },
   "dependencies": {
@@ -28,5 +29,10 @@
     "@babel/register": "^7.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }
