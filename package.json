@@ -2,12 +2,31 @@
   "name": "lumos",
   "version": "1.0.0",
   "description": "Media screen software for Raspberry Pi",
-  "main": "index.js",
+  "main": "src/bootstrap.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard",
+    "start": "electron ."
   },
-  "keywords": ["electron", "media", "slideshow", "digital picture frame", "raspberry pi"],
+  "keywords": [
+    "electron",
+    "media",
+    "slideshow",
+    "digital picture frame",
+    "raspberry pi"
+  ],
   "author": "Michelle Tilley <michelle@michelletilley.net>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "electron": "^3.0.3",
+    "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  }
 }
