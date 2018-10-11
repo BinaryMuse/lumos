@@ -21,6 +21,7 @@ function createWindow () {
     width: 800,
     height: 480,
     show: false,
+    useContentSize: true,
     webPreferences: {
       backgroundThrottling: false
     }
