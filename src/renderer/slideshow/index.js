@@ -34,6 +34,10 @@ function preloadImage (imageSrc) {
   })
 }
 
+function now () {
+  return new Date().getTime()
+}
+
 export default class Slideshow extends React.Component {
   constructor (props) {
     super()
@@ -41,6 +45,7 @@ export default class Slideshow extends React.Component {
     const img1 = lumosImage(this.bucket.pick())
     const img2 = lumosImage(this.bucket.pick())
     this.state = {
+      lastImageTime: null,
       preloaded: false,
       images: [
         // Make first image blank to prevent flicker
@@ -55,8 +60,8 @@ export default class Slideshow extends React.Component {
   async componentDidMount () {
     await Promise.all(this.state.images.map(preloadImage))
     await new Promise(resolve => setTimeout(resolve, 1000))
-    this.setState({ preloaded: true })
-    this.interval = setInterval(this.nextImage.bind(this), this.props.time)
+    this.setState({ preloaded: true, lastImageTime: now() })
+    this.interval = setInterval(this.tick.bind(this), 1000)
   }
 
   componentWillUnmount () {
@@ -64,11 +69,18 @@ export default class Slideshow extends React.Component {
     delete this.interval
   }
 
+  tick () {
+    const time = now()
+    if (time - this.state.lastImageTime >= this.props.time) {
+      this.nextImage()
+    }
+  }
+
   nextImage () {
     this.setState((state) => {
-      const rest = state.images.slice(1)
-      rest.push(lumosImage(this.bucket.pick()))
-      return { images: rest }
+      const images = state.images.slice(1)
+      images.push(lumosImage(this.bucket.pick()))
+      return { images, lastImageTime: now() }
     })
   }
 
