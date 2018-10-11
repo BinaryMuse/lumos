@@ -21,7 +21,9 @@ function createWindow () {
     width: 800,
     height: 480,
     show: false,
-    backgroundThrottling: false
+    webPreferences: {
+      backgroundThrottling: false
+    }
   })
   mainWindow.loadURL(`file://${MAIN_WINDOW_CONTENT_URL}?imagedir=${encodeURIComponent(LUMOS_IMAGE_DIR)}`)
 
