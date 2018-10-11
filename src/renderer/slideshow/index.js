@@ -56,7 +56,7 @@ export default class Slideshow extends React.Component {
     await Promise.all(this.state.images.map(preloadImage))
     await new Promise(resolve => setTimeout(resolve, 1000))
     this.setState({ preloaded: true })
-    this.interval = setInterval(this.nextImage.bind(this), 6000)
+    this.interval = setInterval(this.nextImage.bind(this), this.props.time)
   }
 
   componentWillUnmount () {

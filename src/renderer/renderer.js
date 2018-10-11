@@ -56,7 +56,7 @@ class App extends React.Component {
   renderSlideshow (styles) {
     return (
       <FullScreen style={{ ...styles, display: 'flex' }} key='slideshow'>
-        <Slideshow images={this.state.images} />
+        <Slideshow images={this.state.images} time={10000} />
       </FullScreen>
     )
   }
