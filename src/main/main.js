@@ -20,7 +20,8 @@ function createWindow () {
     title: 'Lumos',
     width: 800,
     height: 480,
-    show: false
+    show: false,
+    backgroundThrottling: false
   })
   mainWindow.loadURL(`file://${MAIN_WINDOW_CONTENT_URL}?imagedir=${encodeURIComponent(LUMOS_IMAGE_DIR)}`)
 
