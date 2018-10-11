@@ -21,7 +21,6 @@ class App extends React.Component {
   async componentDidMount () {
     setTimeout(() => {
       this.setState({ loadTimer: true })
-      delete this.timer
     }, 3000)
 
     const dir = qs.parse(document.location.search.replace(/^\?/, '')).imagedir
