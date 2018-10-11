@@ -28,7 +28,8 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-spring": "^5.9.2"
   },
   "husky": {
     "hooks": {
