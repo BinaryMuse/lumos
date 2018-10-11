@@ -9,7 +9,7 @@ const LUMOS_IMAGE_DIR = process.env.LUMOS_IMAGE_DIR || path.join(os.homedir(), '
 if (!fs.existsSync(LUMOS_IMAGE_DIR)) {
   console.error(
     `Lumos image directory ${LUMOS_IMAGE_DIR} does not exist on disk. ` +
-    `Create it or specify a different directory with the LUMOS_IMAGE_DIR environment variable`
+    `Create it or specify a different directory with the LUMOS_IMAGE_DIR environment variable.`
   )
   app.exit(1)
 }
@@ -20,12 +20,11 @@ function createWindow () {
     title: 'Lumos',
     width: 800,
     height: 480,
-    show: false,
-    useContentSize: true
+    show: false
   })
   mainWindow.loadURL(`file://${MAIN_WINDOW_CONTENT_URL}?imagedir=${encodeURIComponent(LUMOS_IMAGE_DIR)}`)
 
-  // The app will not boot until it gets the `main-window-shown` event
+  // The client app will not boot until it gets the `boot-app` event
   mainWindow.once('show', () => {
     mainWindow.webContents.send('boot-app')
   })
@@ -38,6 +37,7 @@ function createWindow () {
   })
 }
 
+// `lumos://image.jpg` will load `image.jpg` from LUMOS_IMAGE_DIR
 function registerImageProtocol () {
   protocol.registerFileProtocol('lumos', (request, callback) => {
     const relPath = request.url.replace(/^lumos:\/\//, '')
