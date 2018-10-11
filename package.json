@@ -24,12 +24,16 @@
   },
   "dependencies": {
     "@babel/core": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "fs-extra": "^7.0.0",
+    "image-type": "^3.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-spring": "^5.9.2"
+    "react-spring": "^5.9.2",
+    "read-chunk": "^3.0.0"
   },
   "husky": {
     "hooks": {

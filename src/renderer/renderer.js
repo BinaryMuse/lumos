@@ -1,71 +1,67 @@
 import { ipcRenderer } from 'electron'
+import qs from 'querystring'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Spring, Transition, config } from 'react-spring'
+import { Spring, Transition } from 'react-spring'
 
-const MAX_RANDOM = 1000000
-function random (max) {
-  return Math.floor(Math.random() * max)
-}
+import FullScreen from './ui/full-screen'
+import ImageLoader from './image-loader'
+import Slideshow from './slideshow'
 
 class App extends React.Component {
   constructor () {
     super()
     this.state = {
-      images: [
-        `https://placem.at/people?w=800&h=480&random=${random(MAX_RANDOM)}&txt=`,
-        `https://placem.at/people?w=800&h=480&random=${random(MAX_RANDOM)}&txt=`,
-        `https://placem.at/people?w=800&h=480&random=${random(MAX_RANDOM)}&txt=`
-      ]
+      loadTimer: false,
+      images: null
     }
   }
 
   componentDidMount () {
-    setInterval(() => {
-      this.setState((state) => {
-        const rest = state.images.slice(1)
-        rest.push(`https://placem.at/people?w=800&h=480&random=${random(MAX_RANDOM)}&txt=`)
-        return { images: rest }
-      })
-    }, 6000)
+    setTimeout(() => {
+      this.setState({ loadTimer: true })
+      delete this.timer
+    }, 3000)
   }
 
   render () {
-    const containerStyle = {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0
-    }
+    const loaded = this.state.loadTimer && this.state.images !== null
 
-    const images = this.state.images.slice(0, 2)
     return (
-      <div style={containerStyle}>
-        <Transition
-          keys={images}
-          from={{ opacity: 0 }}
-          enter={{ opacity: 1 }}
-          leave={{ opacity: 0 }}
-          config={config.slow}
-        >
-          {images.slice(0, 2).map(item => props => <div style={{ ...containerStyle, ...props, background: `url(${item})`, backgroundSize: 'cover' }} />)}
-        </Transition>
-        <img src={this.state.images[2]} style={{ position: 'absolute', left: -10000, top: -10000 }} />
-      </div>
+      <Transition from={{ opacity: 0 }} enter={{ opacity: 1 }} leave={{ opacity: 0 }}>
+        {(loaded ? styles => this.renderSlideshow(styles) : styles => this.renderLoading(styles))}
+      </Transition>
     )
   }
-  renderOld () {
+
+  renderLoading (styles) {
+    const dir = qs.parse(document.location.search.replace(/^\?/, '')).imagedir
+
     return (
-      <Spring config={{ delay: 500, tension: 100, friction: 50 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
-        {styles => (
-          <div style={{ ...styles, color: 'white', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <h1 style={{ textAlign: 'center' }}>L U M O S</h1>
-          </div>
-        )}
-      </Spring>
+      <FullScreen style={{ ...styles, display: 'flex' }} key='loading'>
+        <Spring config={{ delay: 500, tension: 100, friction: 50 }} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+          {innerStyles => (
+            <div style={{ ...innerStyles, color: 'white', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <h1 style={{ textAlign: 'center' }}>L U M O S</h1>
+            </div>
+          )}
+        </Spring>
+        <ImageLoader directory={dir} onLoad={this.handleImagesLoaded.bind(this)} />
+      </FullScreen>
     )
+  }
+
+  renderSlideshow (styles) {
+    return (
+      <FullScreen style={{ ...styles, display: 'flex' }} key='slideshow'>
+        <Slideshow images={this.state.images} />
+      </FullScreen>
+    )
+  }
+
+  handleImagesLoaded (images) {
+    this.setState({ images })
   }
 }
 

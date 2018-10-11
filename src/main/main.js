@@ -23,7 +23,7 @@ function createWindow () {
     show: false,
     useContentSize: true
   })
-  mainWindow.loadURL(`file://${MAIN_WINDOW_CONTENT_URL}`)
+  mainWindow.loadURL(`file://${MAIN_WINDOW_CONTENT_URL}?imagedir=${encodeURIComponent(LUMOS_IMAGE_DIR)}`)
 
   // The app will not boot until it gets the `main-window-shown` event
   mainWindow.once('show', () => {
@@ -32,6 +32,9 @@ function createWindow () {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    if (process.env.LUMOS_FULLSCREEN) {
+      mainWindow.setFullScreen(true)
+    }
   })
 }
 
