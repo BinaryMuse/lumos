@@ -14,6 +14,12 @@ if (!fs.existsSync(LUMOS_IMAGE_DIR)) {
   app.exit(1)
 }
 
+console.log(`Started: ${process.pid}`)
+process.on('SIGUSR1', () => {
+  app.relaunch()
+  app.exit()
+})
+
 let mainWindow // eslint-disable-line no-unused-vars
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -49,6 +55,10 @@ function registerImageProtocol () {
     callback(imagePath)
   })
 }
+
+app.on('window-all-closed', () => {
+  app.quit()
+})
 
 app.on('ready', () => {
   registerImageProtocol()
