@@ -3,6 +3,8 @@ import os from 'os'
 import path from 'path'
 import { app, protocol, BrowserWindow } from 'electron'
 
+import createDiscoveryService from './discovery-service'
+
 const MAIN_WINDOW_CONTENT_URL = path.resolve(__dirname, '..', 'renderer', 'index.html')
 const LUMOS_IMAGE_DIR = process.env.LUMOS_IMAGE_DIR || path.join(os.homedir(), '.lumos_images')
 
@@ -19,6 +21,8 @@ process.on('SIGUSR1', () => {
   app.relaunch()
   app.exit()
 })
+
+createDiscoveryService()
 
 let mainWindow // eslint-disable-line no-unused-vars
 function createWindow () {
