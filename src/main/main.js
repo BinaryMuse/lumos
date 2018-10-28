@@ -3,10 +3,13 @@ import os from 'os'
 import path from 'path'
 import { app, protocol, BrowserWindow } from 'electron'
 
+import express from 'express'
+
 import createDiscoveryService from './discovery-service'
 
 const MAIN_WINDOW_CONTENT_URL = path.resolve(__dirname, '..', 'renderer', 'index.html')
 const LUMOS_IMAGE_DIR = process.env.LUMOS_IMAGE_DIR || path.join(os.homedir(), '.lumos_images')
+const WEB_PORT = 20106
 
 if (!fs.existsSync(LUMOS_IMAGE_DIR)) {
   console.error(
@@ -23,6 +26,17 @@ process.on('SIGUSR1', () => {
 })
 
 createDiscoveryService()
+
+const DEVICE_INFO = {
+  name: 'Lumos Photo Frame',
+  slideTime: 3000
+}
+
+const server = express()
+server.get('/_info', (req, res) => {
+  res.json(DEVICE_INFO)
+})
+server.listen(WEB_PORT)
 
 let mainWindow // eslint-disable-line no-unused-vars
 function createWindow () {

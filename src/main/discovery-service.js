@@ -1,7 +1,9 @@
+import dgram from 'dgram'
+
+import ip from 'ip'
+
 const PORT = 20105
 const MULTICAST_ADDR = '233.255.255.255'
-
-const dgram = require('dgram')
 
 export default function createDiscoveryService () {
   const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true })
@@ -20,7 +22,7 @@ export default function createDiscoveryService () {
         return
       }
 
-      const responseStr = JSON.stringify({ source: 'lumos', type: 'discovery-response', version: 'x.x.x', addr: '...' })
+      const responseStr = JSON.stringify({ source: 'lumos', type: 'discovery-response', version: 'x.x.x', addr: ip.address() })
       const response = Buffer.from(responseStr)
       socket.send(response, 0, response.length, PORT, MULTICAST_ADDR)
     } catch (err) {
